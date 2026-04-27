@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Classic Tournament chess design system. Paper & ink palette, wood tones. All HSL. */
+
+@layer base {
+  :root {
+    /* Paper & ink */
+    --background: 42 30% 96%;        /* #f5f3ee paper */
+    --foreground: 0 0% 8%;            /* #0d0d0d ink */
+
+    --card: 40 22% 93%;               /* #e8e4dd warm card */
+    --card-foreground: 0 0% 8%;
+
+    --popover: 42 30% 97%;
+    --popover-foreground: 0 0% 8%;
+
+    --primary: 0 0% 8%;               /* deep ink */
+    --primary-foreground: 42 30% 96%;
+
+    --secondary: 40 22% 88%;
+    --secondary-foreground: 0 0% 18%;
+
+    --muted: 40 18% 90%;
+    --muted-foreground: 0 0% 35%;
+
+    --accent: 32 42% 32%;             /* walnut accent */
+    --accent-foreground: 42 30% 96%;
+
+    --destructive: 0 65% 42%;
+    --destructive-foreground: 42 30% 96%;
+
+    --border: 36 18% 80%;
+    --input: 36 18% 84%;
+    --ring: 32 42% 32%;
+
+    --radius: 0.375rem;
+
+    /* Chess board tones — Staunton wood */
+    --board-light: 38 45% 85%;        /* warm cream */
+    --board-dark: 28 35% 38%;         /* walnut */
+    --board-frame: 24 30% 18%;        /* dark frame */
+    --highlight-move: 52 90% 55%;     /* gold last-move */
+    --highlight-check: 0 75% 55%;     /* red check */
+    --highlight-legal: 145 50% 40%;   /* green legal */
+
+    /* Sidebar (unused but kept) */
+    --sidebar-background: 42 30% 96%;
+    --sidebar-foreground: 0 0% 18%;
+    --sidebar-primary: 0 0% 8%;
+    --sidebar-primary-foreground: 42 30% 96%;
+    --sidebar-accent: 40 22% 88%;
+    --sidebar-accent-foreground: 0 0% 18%;
+    --sidebar-border: 36 18% 80%;
+    --sidebar-ring: 32 42% 32%;
+  }
+
+  .dark {
+    --background: 24 12% 8%;
+    --foreground: 42 30% 94%;
+    --card: 24 10% 12%;
+    --card-foreground: 42 30% 94%;
+    --popover: 24 10% 12%;
+    --popover-foreground: 42 30% 94%;
+    --primary: 42 30% 94%;
+    --primary-foreground: 0 0% 8%;
+    --secondary: 24 8% 18%;
+    --secondary-foreground: 42 30% 94%;
+    --muted: 24 8% 18%;
+    --muted-foreground: 42 10% 65%;
+    --accent: 32 42% 50%;
+    --accent-foreground: 0 0% 8%;
+    --destructive: 0 65% 42%;
+    --destructive-foreground: 42 30% 94%;
+    --border: 24 8% 22%;
+    --input: 24 8% 22%;
+    --ring: 32 42% 50%;
+
+    --board-light: 38 25% 70%;
+    --board-dark: 28 30% 28%;
+    --board-frame: 24 30% 10%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .board-frame {
+    background:
+      linear-gradient(135deg, hsl(var(--board-frame)) 0%, hsl(24 30% 24%) 100%);
+    box-shadow:
+      0 30px 60px -20px hsl(0 0% 0% / 0.35),
+      0 0 0 1px hsl(var(--board-frame));
+  }
+  .paper-card {
+    background-color: hsl(var(--card));
+    background-image:
+      radial-gradient(hsl(0 0% 0% / 0.025) 1px, transparent 1px);
+    background-size: 6px 6px;
+  }
+
+  /* Checkmate king pulse + shake */
+  @keyframes king-checkmate {
+    0%, 100% { transform: translate(0, 0) scale(1); filter: drop-shadow(0 0 0 hsl(var(--highlight-check) / 0)); }
+    10% { transform: translate(-2px, 0) scale(1.05); }
+    20% { transform: translate(2px, 0) scale(1.05); }
+    30% { transform: translate(-2px, 0) scale(1.08); }
+    40% { transform: translate(2px, 0) scale(1.08); }
+    50% { transform: translate(0, 0) scale(1.12); filter: drop-shadow(0 0 18px hsl(var(--highlight-check) / 0.9)); }
+  }
+  .king-checkmate {
+    animation: king-checkmate 1.4s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes board-mate-overlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .board-mate-overlay {
+    animation: board-mate-overlay 0.8s ease-out forwards;
+    background: radial-gradient(circle at center, transparent 30%, hsl(0 0% 0% / 0.55) 100%);
+  }
+}
